@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>延安项目内部管理人员2025年度评优线上不记名投票</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .vote-rule {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #4299e1;
+            margin-bottom: 30px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .vote-section {
+            margin-bottom: 40px;
+        }
+        .vote-section h2 {
+            color: #4299e1;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .candidate-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .candidate-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: #fafafa;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+        .candidate-item:hover {
+            background-color: #f0f8ff;
+        }
+        .candidate-item input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .candidate-info {
+            flex: 1;
+        }
+        .candidate-info h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .candidate-info p {
+            color: #777;
+            font-size: 14px;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            background-color: #4299e1;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #3182ce;
+        }
+        .tip {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        /* 适配移动端 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            .vote-section h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>项目内部管理人员2025年度评优线上不记名投票</h1>
+        
+        <div class="vote-rule">
+            <p>📌 投票规则：</p>
+            <p>1. 投票时间：3月20日-3月22日24时，逾期无法提交；</p>
+            <p>2. 投票范围：项目全体员工（含管理人员及基层员工），每人仅可提交1次，请勿重复投票；</p>
+            <p>3. 投票要求：</p>
+            <p>   - 优秀部门负责人：从8名候选人中选择2名；<strong>本层级内同一部门最多选1人</strong>；</p>
+            <p>   - 优秀一般管理人员：从25名候选人中选择5名；<strong>本层级内同一部门最多选1人</strong>；</p>
+            <p>4. 本次投票为不记名投票，严格遵循公平、公正、公开原则，严禁拉票、贿票；</p>
+            <p>5. 提交后无法修改，请谨慎选择。</p>
+        </div>
+
+        <form id="voteForm">
+           <!-- 优秀部门负责人投票区 -->
+            <div class="vote-section">
+                <h2>一、优秀部门负责人（请选择2名，本层级同部门限选1人）</h2>
+                <div class="candidate-list">
+                    <div class="candidate-item" data-dept="综合管理部">
+                        <input type="checkbox" name="deptLeader" id="leader1" value="杨航航|综合管理部">
+                        <div class="candidate-info">
+                            <h3>杨航航</h3>
+                            <p>所属部门：综合管理部 </p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="工程技术部门">
+                        <input type="checkbox" name="deptLeader" id="leader2" value="刘德光|工程技术部门">
+                        <div class="candidate-info">
+                            <h3>刘德光</h3>
+                            <p>所属部门：工程技术部门</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="质量环保部">
+                        <input type="checkbox" name="deptLeader" id="leader3" value="王鹏飞|质量环保部">
+                        <div class="candidate-info">
+                            <h3>王鹏飞</h3>
+                            <p>所属部门：质量环保部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="质量环保部">
+                        <input type="checkbox" name="deptLeader" id="leader4" value="武志鹏|质量环保部">
+                        <div class="candidate-info">
+                            <h3>武志鹏</h3>
+                            <p>所属部门：质量环保部 </p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="合同成本部">
+                        <input type="checkbox" name="deptLeader" id="leader5" value="李盼盼|合同成本部">
+                        <div class="candidate-info">
+                            <h3>李盼盼</h3>
+                            <p>所属部门：合同成本部 </p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="合同成本部">
+                        <input type="checkbox" name="deptLeader" id="leader6" value="帖玉|合同成本部">
+                        <div class="candidate-info">
+                            <h3>帖玉</h3>
+                            <p>所属部门：合同成本部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="物资统计">
+                        <input type="checkbox" name="deptLeader" id="leader7" value="程文|物资统计">
+                        <div class="candidate-info">
+                            <h3>程文</h3>
+                            <p>所属部门：物资统计</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="安全管理">
+                        <input type="checkbox" name="deptLeader" id="leader8" value="连晓雄|安全管理">
+                        <div class="candidate-info">
+                            <h3>连晓雄</h3>
+                            <p>所属部门：安全管理 </p>
+                        </div>
+                    </div>
+                   </div>
+           
+
+            <!-- 优秀一般管理人员投票区 -->
+            <div class="vote-section">
+                <h2>二、优秀一般管理人员（请选择5名，本层级同部门限选1人）</h2>
+                <div class="candidate-list">
+                    <div class="candidate-item" data-dept="工程技术部">
+                        <input type="checkbox" name="generalManager" id="manager1" value="王瑞鑫|工程技术部">
+                        <div class="candidate-info">
+                            <h3>王瑞鑫</h3>
+                            <p>所属部门：工程技术部 </p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="工程技术部">
+                        <input type="checkbox" name="generalManager" id="manager2" value="王瑞江|工程技术部">
+                        <div class="candidate-info">
+                            <h3>王瑞江</h3>
+                            <p>所属部门：工程技术部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="工程技术部">
+                        <input type="checkbox" name="generalManager" id="manager3" value="胡鑫|工程技术部">
+                        <div class="candidate-info">
+                            <h3>胡鑫</h3>
+                            <p>所属部门：工程技术部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="工程技术部">
+                        <input type="checkbox" name="generalManager" id="manager4" value="汪靖鸿|工程技术部">
+                        <div class="candidate-info">
+                            <h3>汪靖鸿</h3>
+                            <p>所属部门：工程技术部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="工程技术部">
+                        <input type="checkbox" name="generalManager" id="manager5" value="胡镱钟|工程技术部">
+                        <div class="candidate-info">
+                            <h3>胡镱钟</h3>
+                            <p>所属部门：工程技术部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="工程技术部">
+                        <input type="checkbox" name="generalManager" id="manager6" value="李卓航|工程技术部">
+                        <div class="candidate-info">
+                            <h3>李卓航</h3>
+                            <p>所属部门：工程技术部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="工程技术部">
+                        <input type="checkbox" name="generalManager" id="manager7" value="张明|工程技术部">
+                        <div class="candidate-info">
+                            <h3>张明</h3>
+                            <p>所属部门：工程技术部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="工程技术部">
+                        <input type="checkbox" name="generalManager" id="manager8" value="高舒龙|工程技术部">
+                        <div class="candidate-info">
+                            <h3>高舒龙</h3>
+                            <p>所属部门：工程技术部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="工程技术部">
+                        <input type="checkbox" name="generalManager" id="manager9" value="梁家源|工程技术部">
+                        <div class="candidate-info">
+                            <h3>梁家源</h3>
+                            <p>所属部门：工程技术部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="综合管理部">
+                        <input type="checkbox" name="generalManager" id="manager10" value="张庆|综合管理部">
+                        <div class="candidate-info">
+                            <h3>张庆</h3>
+                            <p>所属部门：综合管理部 </p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="综合管理部">
+                        <input type="checkbox" name="generalManager" id="manager11" value="周玥|综合管理部">
+                        <div class="candidate-info">
+                            <h3>周玥</h3>
+                            <p>所属部门：综合管理部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="质量环保部">
+                        <input type="checkbox" name="generalManager" id="manager12" value="黄宝存|质量环保部">
+                        <div class="candidate-info">
+                            <h3>黄宝存</h3>
+                            <p>所属部门：质量环保部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="质量环保部">
+                        <input type="checkbox" name="generalManager" id="manager13" value="党磊|质量环保部">
+                        <div class="candidate-info">
+                            <h3>党磊</h3>
+                            <p>所属部门：质量环保部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="合同成本部">
+                        <input type="checkbox" name="generalManager" id="manager14" value="苏雨桐|合同成本部">
+                        <div class="candidate-info">
+                            <h3>苏雨桐</h3>
+                            <p>所属部门：合同成本部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="合同成本部">
+                        <input type="checkbox" name="generalManager" id="manager15" value="苏毓春|合同成本部">
+                        <div class="candidate-info">
+                            <h3>苏毓春</h3>
+                            <p>所属部门：合同成本部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="合同成本部">
+                        <input type="checkbox" name="generalManager" id="manager16" value="郭佳晨|合同成本部">
+                        <div class="candidate-info">
+                            <h3>郭佳晨</h3>
+                            <p>所属部门：合同成本部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="物资统计">
+                        <input type="checkbox" name="generalManager" id="manager17" value="雷立科|物资统计">
+                        <div class="candidate-info">
+                            <h3>雷立科</h3>
+                            <p>所属部门：物资统计</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="物资统计">
+                        <input type="checkbox" name="generalManager" id="manager18" value="张利芳|物资统计">
+                        <div class="candidate-info">
+                            <h3>张利芳</h3>
+                            <p>所属部门：物资统计</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="物资统计">
+                        <input type="checkbox" name="generalManager" id="manager19" value="冯文靖|物资统计">
+                        <div class="candidate-info">
+                            <h3>冯文靖</h3>
+                            <p>所属部门：物资统计</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="物资统计">
+                        <input type="checkbox" name="generalManager" id="manager20" value="李强|物资统计">
+                        <div class="candidate-info">
+                            <h3>李强</h3>
+                            <p>所属部门：物资统计</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="物资统计">
+                        <input type="checkbox" name="generalManager" id="manager21" value="穆朋勃|物资统计">
+                        <div class="candidate-info">
+                            <h3>穆朋勃</h3>
+                            <p>所属部门：物资统计</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="安全管理部">
+                        <input type="checkbox" name="generalManager" id="manager22" value="安淑娅|安全管理部">
+                        <div class="candidate-info">
+                            <h3>安淑娅</h3>
+                            <p>所属部门：安全管理部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="安全管理部">
+                        <input type="checkbox" name="generalManager" id="manager23" value="孙涛|安全管理部">
+                        <div class="candidate-info">
+                            <h3>孙涛</h3>
+                            <p>所属部门：安全管理部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="安全管理部">
+                        <input type="checkbox" name="generalManager" id="manager24" value="石伟|安全管理部">
+                        <div class="candidate-info">
+                            <h3>石伟</h3>
+                            <p>所属部门：安全管理部</p>
+                        </div>
+                    </div>
+                    <div class="candidate-item" data-dept="财务管理部">
+                        <input type="checkbox" name="generalManager" id="manager25" value="张彤|财务管理部">
+                        <div class="candidate-info">
+                            <h3>张彤</h3>
+                            <p>所属部门：财务管理部</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">提交投票</button>
+            <p class="tip">提交后将显示投票成功提示，请勿重复提交！</p>
+        </form>
+    </div>
+
+    <script>
+        // 核心修复：拆分层级的部门计数（不再全局共享）
+        // 1. 部门负责人层级的部门计数
+        const deptLeaderDeptCount = {};
+        // 2. 一般管理人员层级的部门计数
+        const generalManagerDeptCount = {};
+
+        // 初始化部门计数（按层级分别初始化）
+        // 初始化部门负责人层级
+        document.querySelectorAll('input[name="deptLeader"]').forEach(checkbox => {
+            const dept = checkbox.closest('.candidate-item').dataset.dept;
+            if (!deptLeaderDeptCount[dept]) {
+                deptLeaderDeptCount[dept] = 0;
+            }
+        });
+        // 初始化一般管理人员层级
+        document.querySelectorAll('input[name="generalManager"]').forEach(checkbox => {
+            const dept = checkbox.closest('.candidate-item').dataset.dept;
+            if (!generalManagerDeptCount[dept]) {
+                generalManagerDeptCount[dept] = 0;
+            }
+        });
+
+        // 限制优秀部门负责人：选2名 + 本层级同部门限1人
+        const deptLeaderChecks = document.querySelectorAll('input[name="deptLeader"]');
+        deptLeaderChecks.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const candidateItem = checkbox.closest('.candidate-item');
+                const dept = candidateItem.dataset.dept;
+
+                // 仅操作部门负责人层级的计数（和一般管理人员无关）
+                if (checkbox.checked) {
+                    // 本层级同部门限1人
+                    if (deptLeaderDeptCount[dept] >= 1) {
+                        alert(`【部门负责人层级-${dept}】同一部门最多只能选1人！`);
+                        checkbox.checked = false;
+                        return;
+                    }
+                    deptLeaderDeptCount[dept]++;
+                } else {
+                    deptLeaderDeptCount[dept]--;
+                }
+
+                // 总数限选2人
+                const checkedCount = document.querySelectorAll('input[name="deptLeader"]:checked').length;
+                if (checkedCount > 2) {
+                    alert('优秀部门负责人最多选择2名！');
+                    checkbox.checked = false;
+                    deptLeaderDeptCount[dept]--; // 回滚本层级计数
+                }
+            });
+        });
+
+        // 限制优秀一般管理人员：选5名 + 本层级同部门限1人
+        const generalManagerChecks = document.querySelectorAll('input[name="generalManager"]');
+        generalManagerChecks.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const candidateItem = checkbox.closest('.candidate-item');
+                const dept = candidateItem.dataset.dept;
+
+                // 仅操作一般管理人员层级的计数（和部门负责人无关）
+                if (checkbox.checked) {
+                    // 本层级同部门限1人
+                    if (generalManagerDeptCount[dept] >= 1) {
+                        alert(`【一般管理人员层级-${dept}】同一部门最多只能选1人！`);
+                        checkbox.checked = false;
+                        return;
+                    }
+                    generalManagerDeptCount[dept]++;
+                } else {
+                    generalManagerDeptCount[dept]--;
+                }
+
+                // 总数限选5人
+                const checkedCount = document.querySelectorAll('input[name="generalManager"]:checked').length;
+                if (checkedCount > 5) {
+                    alert('优秀一般管理人员最多选择5名！');
+                    checkbox.checked = false;
+                    generalManagerDeptCount[dept]--; // 回滚本层级计数
+                }
+            });
+        });
+
+        // 表单提交最终验证
+        const voteForm = document.getElementById('voteForm');
+        voteForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // 阻止默认提交
+            const deptCheckedCount = document.querySelectorAll('input[name="deptLeader"]:checked').length;
+            const generalCheckedCount = document.querySelectorAll('input[name="generalManager"]:checked').length;
+
+            if (deptCheckedCount !== 2) {
+                alert('请选择2名优秀部门负责人！');
+                return;
+            }
+            if (generalCheckedCount !== 5) {
+                alert('请选择5名优秀一般管理人员！');
+                return;
+            }
+
+            // 投票数据存储（方便后续统计）
+            const VOTE_DATA_KEY = 'project_vote_data_2025';
+            const voteData = {
+                deptLeader: Array.from(document.querySelectorAll('input[name="deptLeader"]:checked')).map(cb => cb.value),
+                generalManager: Array.from(document.querySelectorAll('input[name="generalManager"]:checked')).map(cb => cb.value),
+                voteTime: new Date().toLocaleString()
+            };
+            const existingData = JSON.parse(localStorage.getItem(VOTE_DATA_KEY) || '[]');
+            // 简单防重复投票
+            if (existingData.some(item => JSON.stringify(item.deptLeader) === JSON.stringify(voteData.deptLeader) && JSON.stringify(item.generalManager) === JSON.stringify(voteData.generalManager))) {
+                alert('你已提交过投票，请勿重复提交！');
+                return;
+            }
+            existingData.push(voteData);
+            localStorage.setItem(VOTE_DATA_KEY, JSON.stringify(existingData));
+
+            alert('投票成功！感谢你的参与！');
+            voteForm.reset();
+            
+            // 重置层级计数（提交后清空）
+            Object.keys(deptLeaderDeptCount).forEach(dept => deptLeaderDeptCount[dept] = 0);
+            Object.keys(generalManagerDeptCount).forEach(dept => generalManagerDeptCount[dept] = 0);
+        });
+
+        // 发起人查看统计的快捷入口（密码改为你的991211Zq.）
+        window.showVoteStats = function() {
+            const ADMIN_PASSWORD = '991211Zq.'; // 和统计页密码一致
+            const inputPwd = prompt('请输入发起人密码：');
+            if (inputPwd === ADMIN_PASSWORD) {
+                window.open('vote_stats.html', '_blank');
+            } else {
+                alert('密码错误！');
+            }
+        };
+    </script>
+</body>
+</html>
+</html>
+           
+
+
