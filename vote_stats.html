@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025评优投票统计（发起人专属）</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft YaHei", sans-serif; }
+        body { background: #f5f7fa; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: none; } /* 默认隐藏，密码正确后显示 */
+        h1 { text-align: center; color: #333; margin-bottom: 30px; }
+        .stats-section { margin-bottom: 40px; }
+        .stats-section h2 { color: #4299e1; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .stats-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        .stats-table th, .stats-table td { border: 1px solid #eee; padding: 10px; text-align: left; }
+        .stats-table th { background: #f8f9fa; }
+        .btn-group { display: flex; gap: 15px; margin: 10px 0; }
+        .export-btn, .test-btn, .clear-btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .export-btn { background: #4299e1; color: #fff; }
+        .export-btn:hover { background: #3182ce; }
+        .test-btn { background: #38a169; color: #fff; }
+        .test-btn:hover { background: #319759; }
+        .clear-btn { background: #e53e3e; color: #fff; }
+        .clear-btn:hover { background: #d63031; }
+        .total-vote { font-size: 16px; color: #333; margin: 15px 0; font-weight: bold; }
+        .error-tip { text-align: center; font-size: 18px; color: #e53e3e; margin-top: 100px; }
+    </style>
+</head>
+<body>
+    <!-- 密码错误提示 -->
+    <div class="error-tip" id="errorTip" style="display: none;">密码错误，禁止访问！</div>
+
+    <!-- 统计主内容（默认隐藏） -->
+    <div class="container" id="statsContainer">
+        <h1>2025年度管理人员评优投票统计结果</h1>
+        
+        <div class="total-vote" id="totalVoteCount">总投票人数：0</div>
+
+        <!-- 功能按钮组（测试+清零+导出） -->
+        <div class="btn-group">
+            <button class="test-btn" id="testVoteBtn">生成测试投票数据（5人）</button>
+            <button class="clear-btn" id="clearVoteBtn">清零所有投票数据</button>
+            <button class="export-btn" id="exportBtn">导出统计结果（CSV）</button>
+        </div>
+
+        <!-- 部门负责人投票统计 -->
+        <div class="stats-section">
+            <h2>一、优秀部门负责人得票统计</h2>
+            <table class="stats-table" id="deptLeaderTable">
+                <thead>
+                    <tr>
+                        <th>候选人</th>
+                        <th>所属部门</th>
+                        <th>得票数</th>
+                        <th>得票率</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- 一般管理人员投票统计 -->
+        <div class="stats-section">
+            <h2>二、优秀一般管理人员得票统计</h2>
+            <table class="stats-table" id="generalManagerTable">
+                <thead>
+                    <tr>
+                        <th>候选人</th>
+                        <th>所属部门</th>
+                        <th>得票数</th>
+                        <th>得票率</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // 配置项（和投票页保持一致）
+        const ADMIN_PASSWORD = '991211Zq.'; 
+        const VOTE_DATA_KEY = 'project_vote_data_2025';
+
+        // 1. 密码验证逻辑（优化：避免浏览器拦截window.close）
+        const inputPwd = prompt('请输入发起人密码：');
+        const errorTip = document.getElementById('errorTip');
+        const statsContainer = document.getElementById('statsContainer');
+        
+        if (inputPwd !== ADMIN_PASSWORD) {
+            errorTip.style.display = 'block';
+        } else {
+            statsContainer.style.display = 'block';
+            initStats(); // 验证通过后初始化统计
+        }
+
+        // 2. 初始化统计核心逻辑
+        function initStats() {
+            // 读取投票数据
+            const voteDataList = JSON.parse(localStorage.getItem(VOTE_DATA_KEY) || '[]');
+            const totalVoteCount = voteDataList.length;
+            document.getElementById('totalVoteCount').textContent = `总投票人数：${totalVoteCount}`;
+
+            // 统计得票（通用函数）
+            function countVotes(voteType) {
+                const voteCountMap = {};
+                voteDataList.forEach(vote => {
+                    vote[voteType].forEach(candidate => {
+                        const [name, dept] = candidate.split('|');
+                        const key = `${name}|${dept}`;
+                        voteCountMap[key] = (voteCountMap[key] || 0) + 1;
+                    });
+                });
+                // 转换为数组并排序（降序）
+                return Object.entries(voteCountMap).map(([key, count]) => {
+                    const [name, dept] = key.split('|');
+                    const rate = totalVoteCount > 0 ? ((count / totalVoteCount) * 100).toFixed(2) + '%' : '0%';
+                    return { name, dept, count, rate };
+                }).sort((a, b) => b.count - a.count);
+            }
+
+            // 渲染表格
+            function renderTable(tableId, data) {
+                const tbody = document.querySelector(`#${tableId} tbody`);
+                tbody.innerHTML = '';
+                // 若暂无数据，显示提示行
+                if (data.length === 0) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = '<td colspan="4" style="text-align:center; color:#999;">暂无投票数据</td>';
+                    tbody.appendChild(tr);
+                    return;
+                }
+                data.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>${item.dept}</td>
+                        <td>${item.count}</td>
+                        <td>${item.rate}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // 执行统计和渲染
+            const deptLeaderStats = countVotes('deptLeader');
+            const generalManagerStats = countVotes('generalManager');
+            renderTable('deptLeaderTable', deptLeaderStats);
+            renderTable('generalManagerTable', generalManagerStats);
+
+            // 3. 导出CSV功能
+            document.getElementById('exportBtn').addEventListener('click', function() {
+                let csvContent = "候选人,所属部门,类型,得票数,得票率\n";
+                // 部门负责人
+                deptLeaderStats.forEach(item => {
+                    csvContent += `${item.name},${item.dept},优秀部门负责人,${item.count},${item.rate}\n`;
+                });
+                // 一般管理人员
+                generalManagerStats.forEach(item => {
+                    csvContent += `${item.name},${item.dept},优秀一般管理人员,${item.count},${item.rate}\n`;
+                });
+                // 下载文件
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                link.setAttribute('download', `2025评优投票统计_${new Date().toLocaleDateString()}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                alert('统计结果已导出为CSV文件！');
+            });
+
+            // 4. 新增：生成测试投票数据（模拟5人投票，覆盖不同候选人）
+            document.getElementById('testVoteBtn').addEventListener('click', function() {
+                if (!confirm('确定生成5条测试投票数据吗？会追加到现有数据中！')) return;
+                
+                // 模拟5条符合规则的投票数据（同部门限1人、总数符合2+5）
+                const testVoteData = [
+                    // 测试数据1
+                    {
+                        deptLeader: ['杨航航|综合管理部', '刘德光|工程技术部门'],
+                        generalManager: ['王瑞鑫|工程技术部', '张庆|综合管理部', '黄宝存|质量环保部', '苏雨桐|合同成本部', '雷立科|物资统计'],
+                        voteTime: new Date().toLocaleString()
+                    },
+                    // 测试数据2
+                    {
+                        deptLeader: ['王鹏飞|质量环保部', '李盼盼|合同成本部'],
+                        generalManager: ['王瑞江|工程技术部', '周玥|综合管理部', '党磊|质量环保部', '苏毓春|合同成本部', '张利芳|物资统计'],
+                        voteTime: new Date().toLocaleString()
+                    },
+                    // 测试数据3
+                    {
+                        deptLeader: ['程文|物资统计', '连晓雄|安全管理'],
+                        generalManager: ['胡鑫|工程技术部', '安淑娅|安全管理部', '郭佳晨|合同成本部', '冯文靖|物资统计', '张彤|财务管理部'],
+                        voteTime: new Date().toLocaleString()
+                    },
+                    // 测试数据4
+                    {
+                        deptLeader: ['武志鹏|质量环保部', '帖玉|合同成本部'],
+                        generalManager: ['汪靖鸿|工程技术部', '孙涛|安全管理部', '黄宝存|质量环保部', '李强|物资统计', '张彤|财务管理部'],
+                        voteTime: new Date().toLocaleString()
+                    },
+                    // 测试数据5
+                    {
+                        deptLeader: ['杨航航|综合管理部', '连晓雄|安全管理'],
+                        generalManager: ['胡镱钟|工程技术部', '石伟|安全管理部', '党磊|质量环保部', '穆朋勃|物资统计', '苏雨桐|合同成本部'],
+                        voteTime: new Date().toLocaleString()
+                    }
+                ];
+
+                // 读取现有数据 + 追加测试数据
+                const existingData = JSON.parse(localStorage.getItem(VOTE_DATA_KEY) || '[]');
+                const newData = existingData.concat(testVoteData);
+                localStorage.setItem(VOTE_DATA_KEY, JSON.stringify(newData));
+                
+                alert('5条测试投票数据已生成！');
+                initStats(); // 重新渲染统计结果
+            });
+
+            // 5. 新增：清零所有投票数据
+            document.getElementById('clearVoteBtn').addEventListener('click', function() {
+                if (!confirm('⚠️ 确定清零所有投票数据吗？此操作不可恢复！')) return;
+                
+                localStorage.removeItem(VOTE_DATA_KEY);
+                alert('所有投票数据已清零！');
+                initStats(); // 重新渲染空数据
+            });
+        }
+    </script>
+</body>
+</html>
